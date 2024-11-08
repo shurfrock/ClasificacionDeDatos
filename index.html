@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificación de Desempeño Académico</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <header class="header">
+        <h1 class="titulo">Clasificador de Desempeño Académico</h1>
+    </header>
+    <main class="main">
+        <form class="formulario" id="formulario">
+            <fieldset>
+                <legend>Datos del alumno</legend>
+                <div class="contenedor-campos">
+                    <div class="campo">
+                        <label for="age">Edad:</label>
+                        <input type="number" id="age" name="age">
+                    </div>
+
+                    <div class="campo">
+                        <label for="parentalEducation">Nivel Educativo de los Padres:</label>
+                        <input type="number" id="parentalEducation" name="parentalEducation">
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="studyTimeWeekly">Horas de Estudio Semanales:</label>
+                        <input type="number" id="studyTimeWeekly" name="studyTimeWeekly">
+                    </div>
+            
+                    <div class="campo">
+                        <label for="absences">Ausencias:</label>
+                        <input type="number" id="absences" name="absences">
+                    </div>
+
+                    <div class="campo">
+                        <label for="tutoring">Tutorías (0 o 1):</label>
+                        <input type="number" id="tutoring" name="tutoring">
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="parentalSupport">Apoyo de los Padres (0 o 1):</label>
+                        <input type="number" id="parentalSupport" name="parentalSupport">
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="extracurricular">Extracurriculares (0 o 1):</label>
+                        <input type="number" id="extracurricular" name="extracurricular">
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="sports">Deportes (0 o 1):</label>
+                        <input type="number" id="sports" name="sports">
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="music">Música (0 o 1):</label>
+                        <input type="number" id="music" name="music">
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="volunteering">Voluntariado (0 o 1):</label>
+                        <input type="number" id="volunteering" name="volunteering">
+                    </div>
+                    
+                    <div class="campo">
+                        <label for="gpa">Promedio (GPA):</label>
+                        <input type="number" step="0.1" id="gpa" name="gpa">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <button class="boton" type="button" onclick="clasificar()">Clasificar</button>
+        <p id="resultado"></p>
+    </main>
+
+    <script>
+        async function clasificar() {
+            // Obtener los datos del formulario
+            const datos = {
+                age: document.getElementById('age').value,
+                parentalEducation: document.getElementById('parentalEducation').value,
+                studyTimeWeekly: document.getElementById('studyTimeWeekly').value,
+                absences: document.getElementById('absences').value,
+                tutoring: document.getElementById('tutoring').value,
+                parentalSupport: document.getElementById('parentalSupport').value,
+                extracurricular: document.getElementById('extracurricular').value,
+                sports: document.getElementById('sports').value,
+                music: document.getElementById('music').value,
+                volunteering: document.getElementById('volunteering').value,
+                gpa: document.getElementById('gpa').value
+            };
+
+            // Enviar los datos a la API usando fetch
+            const respuesta = await fetch('http://127.0.0.1:5000/clasificar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datos)
+            });
+
+            // Obtener el resultado de la predicción
+            const resultado = await respuesta.json();
+            document.getElementById('resultado').innerText = "La predicción es: " + resultado.prediccion;
+        }
+    </script>
+</body>
+</html>
